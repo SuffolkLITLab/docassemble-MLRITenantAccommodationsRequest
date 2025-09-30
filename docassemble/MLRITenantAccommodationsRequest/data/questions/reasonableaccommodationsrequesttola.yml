@@ -1,0 +1,327 @@
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+---
+metadata:
+  title: >-
+    ReasonableAccommodationsRequesttoLandlord
+  short title: >-
+    AccommReqtoLandlord
+  description: |-
+    This interview helps someone in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
+  can_I_use_this_form: |
+    If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
+  before_you_start: |
+    This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability..
+    
+    Before you get started, please gather:
+    
+    1. The name and address of your landlord or property management company.
+    
+    When you are finished, you will need to:
+    
+    1. Print and mail the completed letter or upload it to your tenant portal as appropriate.
+  maturity: production
+  estimated_completion_minutes: 7
+  estimated_completion_delta: 5
+  LIST_topics: 
+    - "HO-00-00-00-00"
+    - "RI-03-01-00-00"
+  tags:
+    - "HO-00-00-00-00"
+    - "RI-03-01-00-00"
+  authors:
+    - KP Hunsinger
+  original_form: []
+  original_form_published_on: ""
+  allowed_courts: []
+  typical_role: "na"
+  al_weaver_version: "1.11.0"
+  generated_on: "2025-09-30"
+  languages:
+    - en
+  jurisdiction: NAM-US-US+MA
+  review_date: 2025-09-30
+  form_titles:
+    - ReasonableAccommodationsRequesttoLandlord
+  form_numbers: []
+  update_notes: |
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "MA"
+---
+code: |
+  github_repo_name =  'docassemble-Reasonableaccommodationsrequesttola'
+---
+code: |
+  interview_short_title = "Write a letter to your landlord to request reasonable accommodations for a person with a disability."
+---
+code: |
+  al_form_type = "letter" 
+---
+objects:
+  - users: ALPeopleList.using(ask_number=True,target_number=1)
+  - landlords: ALPeopleList.using(ask_number=True,target_number=1)
+---
+sections:
+  - review_reasonableaccommodationsrequesttola: Review your answers
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_reasonableaccommodationsrequesttola
+code: |
+  # Set the allowed courts for this interview
+  nav.set_section("review_reasonableaccommodationsrequesttola")
+  user_role = "na"
+  user_ask_role = "na"
+  use_screen
+  request_subject
+  assistance_animal
+  set_progress(20)
+  users.gather()
+  set_parts(subtitle=str(users))
+  users[0].address.address
+  users[0].phone_number
+  set_progress(40)
+  landlords[0].name.first
+  signature_date
+  interview_order_reasonableaccommodationsrequesttola = True
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  reasonableaccommodationsrequesttola_intro
+  interview_order_reasonableaccommodationsrequesttola
+  signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  reasonableaccommodationsrequesttola_download
+---
+id: ReasonableAccommodationsRequesttoLandlord
+continue button field: reasonableaccommodationsrequesttola_intro
+question: |
+  ReasonableAccommodationsRequesttoLandlord
+subquestion: |
+  This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability..
+  
+  Before you get started, please gather:
+  
+  1. The name and address of your landlord or property management company.
+  
+  When you are finished, you will need to:
+  
+  1. Print and mail the completed letter or upload it to your tenant portal as appropriate.
+
+  If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
+
+  Most people take about 7 minutes to complete this interview.
+---
+id: Confirm Purpose
+question: |
+  Are you using this interview to write a letter to your landlord to request reasonable accomodations for yourself or a member of your household who has a disability?
+fields:
+  - "Screening": use_screen
+    datatype: yesnoradio  
+---
+id: Use Information
+question: |
+  Are you requesting accomodations for yourself or a member of your household?
+fields:
+  - "letter_subject": request_subject
+    input type: radio
+    choices:
+      - myself
+      - a member of my household
+---
+id: Accommodation Requests
+question: |
+  Select the accomodations you would like to request:
+fields:
+  - "Request Assistance Animal": assistance_animal
+    datatype: noyesradio
+    required: False
+  - "Request Parking Space": parking_space
+    datatype: noyesradio
+    required: False
+  - "Request Rent Deadline Change": change_rent
+    datatype: noyesradio
+    required: False
+---
+id: Custom Request
+question: |
+  Would you like to write an additional request not listed? 
+---
+id: Landlord Information
+question: |
+  Landlord Information
+fields:
+  - "Landlords[0].name.first": landlords[0].name.first
+  - "Landlords[0].address.address": landlords[0].address.address
+---
+id: preview reasonableaccommodationsrequesttola
+question: |
+  Preview your form before you sign it
+subquestion: |
+  Here is a preview of the form you will sign on the next page.   
+  
+  ${ al_recipient_bundle.as_pdf(key='preview') }
+
+  Click the image to open it in a new tab. Click the "Edit answers" button
+  to edit your answers.
+
+  ${ action_button_html(url_action('review_reasonableaccommodationsrequesttola'), label='Edit answers', color='info') }
+  
+  Remember to come back to this window to continue and sign your form.
+continue button field: reasonableaccommodationsrequesttola_preview_question    
+---
+code: |
+  signature_fields = ['users[0].signature']
+---
+code: |
+  subject_ref = DAEmpty()
+---
+code: |
+  request_body = DAEmpty()
+---
+id: reasonableaccommodationsrequesttola review screen
+event: review_reasonableaccommodationsrequesttola
+question: |
+  Review your answers
+review:
+  - Edit: users.revisit
+    button: |
+      **Users**
+
+      % for item in users:
+        * ${ item }
+      % endfor
+  - Edit: signature_date
+    button: |
+      **Date of Signature**:
+      ${ signature_date }
+  - Edit: landlords[0].name.first
+    button: |
+      **Landlords[0].name.first**:
+      ${ landlords[0].name.first }
+  - Edit: landlords[0].address.address
+    button: |
+      **Landlords[0].address.address**:
+      ${ landlords[0].address.address.block() }
+  - Edit: request_subject
+    button: |
+      **letter_subject**:
+      ${ request_subject }
+  - Edit: assistance_animal
+    button: |
+      **Request Assistance Animal**:
+      ${ assistance_animal }
+  - Edit: parking_space
+    button: |
+      **Request Parking Space**:
+      ${ parking_space }
+  - Edit: change_rent
+    button: |
+      **Request Rent Deadline Change**:
+      ${ change_rent }
+  - Edit: request_custom
+    button: |
+      **Custom Request**:
+      ${ request_custom }
+  - Edit: use_screen
+    button: |
+      **Screening**:
+      ${ use_screen }
+---
+continue button field: users.revisit
+question: |
+  Edit users
+subquestion: |
+  ${ users.table }
+
+  ${ users.add_action() }
+---
+table: users.table
+rows: users
+columns:
+  - Phone number: |
+      row_item.phone_number if defined("row_item.phone_number") else ""
+  - Signature: |
+      row_item.signature if defined("row_item.signature") else ""
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+  - Address: |
+      row_item.address.block() if defined("row_item.address.address") else ""
+edit:
+  - phone_number
+  - signature
+  - name.first
+  - address.address
+confirm: True
+
+---
+id: download reasonableaccommodationsrequesttola
+event: reasonableaccommodationsrequesttola_download
+question: |
+  All done
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+  
+  View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_reasonableaccommodationsrequesttola'), label='Edit answers', color='info') }
+  
+  
+  ${ al_user_bundle.download_list_html() }
+  
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=True) }
+
+progress: 100
+---
+# ALDocument objects specify the metadata for each template
+objects:
+  - reasonableaccommodationsrequesttola_Post_interview_instructions: ALDocument.using(title="Instructions", filename="reasonableaccommodationsrequesttola_next_steps.docx", enabled=True, has_addendum=False)
+  - reasonableaccommodationsrequesttola_attachment: ALDocument.using(title="ReasonableAccommodationsRequesttoLandlord", filename="reasonableaccommodationsrequesttola", enabled=True, has_addendum=False, )
+---
+# Bundles group the ALDocuments into separate downloads, such as for court and for the user
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[reasonableaccommodationsrequesttola_Post_interview_instructions, reasonableaccommodationsrequesttola_attachment], filename="reasonableaccommodationsrequesttola", title="All forms to download for your records", enabled=True)
+  - al_recipient_bundle: ALDocumentBundle.using(elements=[reasonableaccommodationsrequesttola_attachment],  filename="reasonableaccommodationsrequesttola", title="All forms to file", enabled=True)
+---
+# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the same template is 
+# used for "preview" and "final" keys, and logic in the template checks the value of 
+# `i` to show or hide the user's signature
+attachment:
+  name: Post-interview-Instructions
+  filename: reasonableaccommodationsrequesttola_next_steps
+  docx template file: reasonableaccommodationsrequesttola_next_steps.docx
+  variable name: reasonableaccommodationsrequesttola_Post_interview_instructions[i]
+  skip undefined: True
+  tagged pdf: True
+---
+attachment:
+  name: reasonableaccommodationsrequesttola
+  filename: reasonableaccommodationsrequesttola
+  variable name: reasonableaccommodationsrequesttola_attachment[i]
+  skip undefined: True
+  docx template file: reasonableaccommodationsrequesttola.docx
+  tagged pdf: True
+
+
+
