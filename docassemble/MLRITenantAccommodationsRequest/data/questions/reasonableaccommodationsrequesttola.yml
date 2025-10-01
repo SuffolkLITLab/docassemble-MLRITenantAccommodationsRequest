@@ -80,7 +80,9 @@ code: |
   nav.set_section("review_reasonableaccommodationsrequesttola")
   user_role = "na"
   user_ask_role = "na"
-  use_screen
+  disability_exists
+  if disability_exists == False: 
+    no_disability
   request_subject
   assistance_animal
   set_progress(20)
@@ -134,10 +136,17 @@ subquestion: |
 ---
 id: Confirm Purpose
 question: |
-  Are you using this interview to write a letter to your landlord to request reasonable accomodations for yourself or a member of your household who has a disability?
+  Are you asking a landlord for an accommodation for a disability?
 fields:
-  - "Screening": use_screen
+  - no label: disability_exists
     datatype: yesnoradio  
+---
+id: No Disability Offramp
+event: no_disability
+question: | 
+  Since you are not asking for an accomodation related to a disability you cannot use this form.
+buttons: 
+  - Exit: exit
 ---
 id: Use Information
 question: |
