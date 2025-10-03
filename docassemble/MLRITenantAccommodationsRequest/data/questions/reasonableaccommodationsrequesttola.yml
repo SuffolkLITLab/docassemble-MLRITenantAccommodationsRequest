@@ -8,7 +8,7 @@ metadata:
   short title: >-
     AccommReqtoLandlord
   description: |-
-    This interview helps someone in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
+    This interview helps a renter in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
   can_I_use_this_form: |
     If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
   before_you_start: |
@@ -16,11 +16,13 @@ metadata:
     
     Before you get started, please gather:
     
-    1. The name and address of your landlord or property management company.
+    1. The name and address of your landlord or property management company. If you have a tenant portal for communication with your landlord or property management company, ensure you have access. 
     
-    When you are finished, you will need to:
+    When you are finished, you will need to download the completed letter and either:
     
-    1. Print and mail the completed letter or upload it to your tenant portal as appropriate.
+    1. Upload the signed letter to your tenant portal, 
+    2. Send an email to your landlord or property management company and attach the signed letter, or;
+    3. Print and mail the letter to your landlord or propety management company. 
   maturity: production
   estimated_completion_minutes: 7
   estimated_completion_delta: 5
@@ -76,7 +78,6 @@ comment: |
   Controls order and branching logic for questions specific to this form
 id: interview_order_reasonableaccommodationsrequesttola
 code: |
-  # Set the allowed courts for this interview
   nav.set_section("review_reasonableaccommodationsrequesttola")
   user_role = "na"
   user_ask_role = "na"
@@ -126,9 +127,11 @@ subquestion: |
   
   1. The name and address of your landlord or property management company.
   
-  When you are finished, you will need to:
-  
-  1. Print and mail the completed letter or upload it to your tenant portal as appropriate.
+   When you are finished, you will need to download the completed letter and either:
+    
+    1. Upload the signed letter to your tenant portal, 
+    2. Send an email to your landlord or property management company and attach the signed letter, or;
+    3. Print and mail the letter to your landlord or propety management company. 
 
   If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
 
@@ -152,7 +155,7 @@ id: Use Information
 question: |
   Are you requesting accomodations for yourself or a member of your household?
 fields:
-  - "letter_subject": request_subject
+  - no label: request_subject
     input type: radio
     choices:
       - myself
@@ -160,9 +163,9 @@ fields:
 ---
 id: Accommodation Requests
 question: |
-  Select the accomodations you would like to request:
+  Select the accomodation(s) you would like to request:
 fields:
-  - "Request Assistance Animal": assistance_animal
+  - "Request an Assistance Animal": assistance_animal
     datatype: noyesradio
     required: False
   - "Request Parking Space": parking_space
@@ -171,10 +174,6 @@ fields:
   - "Request Rent Deadline Change": change_rent
     datatype: noyesradio
     required: False
----
-id: Custom Request
-question: |
-  Would you like to write an additional request not listed? 
 ---
 id: Landlord Information
 question: |
@@ -248,14 +247,6 @@ review:
     button: |
       **Request Rent Deadline Change**:
       ${ change_rent }
-  - Edit: request_custom
-    button: |
-      **Custom Request**:
-      ${ request_custom }
-  - Edit: use_screen
-    button: |
-      **Screening**:
-      ${ use_screen }
 ---
 continue button field: users.revisit
 question: |
