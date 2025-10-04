@@ -12,7 +12,7 @@ metadata:
   can_I_use_this_form: |
     If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
   before_you_start: |
-    This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability..
+    This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability.
     
     Before you get started, please gather:
     
@@ -92,7 +92,11 @@ code: |
   users[0].address.address
   users[0].phone_number
   set_progress(40)
-  landlords[0].name.first
+  landlords.gather()
+  set_parts(subtitle=str(landlords))
+  landlords[0].address.address
+  landlords[0].phone_number
+  set_progress(60)
   signature_date
   interview_order_reasonableaccommodationsrequesttola = True
 ---
@@ -174,13 +178,6 @@ fields:
   - "Request Rent Deadline Change": change_rent
     datatype: noyesradio
     required: False
----
-id: Landlord Information
-question: |
-  Landlord Information
-fields:
-  - "Landlords[0].name.first": landlords[0].name.first
-  - "Landlords[0].address.address": landlords[0].address.address
 ---
 id: preview reasonableaccommodationsrequesttola
 question: |
