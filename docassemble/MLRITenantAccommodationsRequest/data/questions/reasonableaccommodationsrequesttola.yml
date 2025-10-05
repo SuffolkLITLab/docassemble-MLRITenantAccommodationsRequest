@@ -12,7 +12,7 @@ metadata:
   can_I_use_this_form: |
     If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
   before_you_start: |
-    This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability..
+    This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability.
     
     Before you get started, please gather:
     
@@ -69,6 +69,7 @@ code: |
 objects:
   - users: ALPeopleList.using(ask_number=True,target_number=1)
   - landlords: ALPeopleList.using(ask_number=True,target_number=1)
+  - company: Organization  
 ---
 sections:
   - review_reasonableaccommodationsrequesttola: Review your answers
@@ -92,7 +93,13 @@ code: |
   users[0].address.address
   users[0].phone_number
   set_progress(40)
-  landlords[0].name.first
+  landlords.gather()
+  set_parts(subtitle=str(landlords))
+  landlords[0].address.address
+  landlords[0].phone_number
+  set_progress(60)
+  if uses_property_manager == True: 
+    company.gather()
   signature_date
   interview_order_reasonableaccommodationsrequesttola = True
 ---
@@ -139,7 +146,7 @@ subquestion: |
 ---
 id: Confirm Purpose
 question: |
-  Are you asking a landlord for an accommodation for a disability?
+  Are you a tenant asking a landlord for accommodations?
 fields:
   - no label: disability_exists
     datatype: yesnoradio  
@@ -147,19 +154,19 @@ fields:
 id: No Disability Offramp
 event: no_disability
 question: | 
-  Since you are not asking for an accomodation related to a disability you cannot use this form.
+  Since you are not a tenant asking for an accomodation related to a disability you will not want to use this form.
 buttons: 
   - Exit: exit
 ---
 id: Use Information
 question: |
-  Are you requesting accomodations for yourself or a member of your household?
+  Are you requesting accomodations for yourself or for a member of your household?
 fields:
-  - no label: request_subject
+  - Accommodations are for: request_subject
     input type: radio
     choices:
-      - myself
-      - a member of my household
+      - "me" : self
+      - "a member of my household" : household_member 
 ---
 id: Accommodation Requests
 question: |
@@ -175,12 +182,12 @@ fields:
     datatype: noyesradio
     required: False
 ---
-id: Landlord Information
+id: 
 question: |
-  Landlord Information
-fields:
-  - "Landlords[0].name.first": landlords[0].name.first
-  - "Landlords[0].address.address": landlords[0].address.address
+  Does your Landlord use a Property Management Company?
+fields: 
+  - no label : uses_property_manager
+    datatype: yesno
 ---
 id: preview reasonableaccommodationsrequesttola
 question: |
@@ -322,6 +329,3 @@ attachment:
   skip undefined: True
   docx template file: reasonableaccommodationsrequesttola.docx
   tagged pdf: True
-
-
-
