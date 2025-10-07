@@ -4,7 +4,7 @@ include:
 ---
 metadata:
   title: >-
-    ReasonableAccommodationsRequesttoLandlord
+    TenantAccommodationsRequesttoLandlord
   short title: >-
     AccommReqtoLandlord
   description: |-
@@ -165,8 +165,15 @@ fields:
   - Accommodations are for: request_subject
     input type: radio
     choices:
-      - "me" : self
+      - "me" : user
       - "a member of my household" : household_member 
+---
+code: |
+  if request_subject == user:
+    subject_ref = "I am"
+  elif request_subject == household_member:
+    subject_ref ="a member of my household is"
+  else: subject_ref = "a member of my household is"
 ---
 id: Accommodation Requests
 question: |
@@ -280,7 +287,6 @@ edit:
   - name.first
   - address.address
 confirm: True
-
 ---
 id: download reasonableaccommodationsrequesttola
 event: reasonableaccommodationsrequesttola_download
