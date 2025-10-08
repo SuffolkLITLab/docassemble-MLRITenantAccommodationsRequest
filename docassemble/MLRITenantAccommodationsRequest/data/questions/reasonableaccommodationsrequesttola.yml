@@ -87,6 +87,8 @@ code: |
     no_disability
   request_subject
   assistance_animal
+  if change_rent == True:
+    paydate
   set_progress(20)
   users.gather()
   set_parts(subtitle=str(users))
@@ -188,6 +190,24 @@ fields:
   - "Request Rent Deadline Change": change_rent
     datatype: noyesradio
     required: False
+---
+Code: |
+  animal_body = "I am requesting permission for an assistance animal to assist with daily living. I understand that our building's rules state a no-pet policy. However, I am requesting that you make a reasonable accomodation in the building's rules to permit an assistance animal in my apartment." 
+---
+Code: |
+  parking_body = "I am requesting a reserved parking space closest to my unit. I understand parking is on a first come, first serve basis, but due to my limited mobility, I am requesting a reserved parking space closest to my unit."
+---
+Code: |
+  rent_body = "I am requesting to pay my rent on the ${ duedate_request } day of the month without being assessed a late fee. I receive my disability checks on the ${ paydate } day of the month."
+---
+id: Request Rent Deadline Change Details
+question: When do you receive disability checks?
+fields: 
+  - no label: paydate
+    datatype: integer
+---
+Code: |
+  duedate_request = ( paydate + 1 )
 ---
 id: 
 question: |
