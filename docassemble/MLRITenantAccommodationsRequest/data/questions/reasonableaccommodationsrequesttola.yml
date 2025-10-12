@@ -193,32 +193,19 @@ code: |
   parking_body = "I am requesting a reserved parking space closest to my unit. I understand parking is on a first come, first serve basis, but due to my limited mobility, I am requesting a reserved parking space closest to my unit."
 ---
 code: |
-  rent_body = "I am requesting to pay my rent on the ${ duedate_request } day of the month without being assessed a late fee. I receive my disability checks on the ${ paydate } day of the month."
+  rent_body = "I am requesting to pay my rent on the ${ ordinal(duedate_request) } day of the month without being assessed a late fee. I receive my disability checks on the ${ ordinal(paydate) } day of the month."
 ---
-id: Request Rent Deadline Change Details
+id: Fixed income date
 question: When do you receive disability checks?
 fields: 
   - no label: paydate
     datatype: integer
 ---
-Code: |
-  duedate_request = ( paydate + 1 )
----
-id: Property Managment
-question: |
-  Does your Landlord use a Property Management Company?
+id: Request Rent Deadline Change Details
+question: When do you receive disability checks?
 fields: 
-  - no label : uses_property_manager
-    datatype: yesno
----
-id: 
-event: addressee
-question: |
-  TEXT 
-subquestion: |
-   Helpful text
-button: 
-  - Continue: continue
+  - no label: duedate_request
+    datatype: integer
 ---
 id: preview reasonableaccommodationsrequesttola
 question: |
