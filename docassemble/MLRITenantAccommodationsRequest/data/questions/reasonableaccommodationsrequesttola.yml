@@ -68,8 +68,7 @@ code: |
 ---
 objects:
   - users: ALPeopleList.using(ask_number=True,target_number=1)
-  - landlords: ALPeopleList.using(ask_number=True,target_number=1)
-  - company: Organization  
+  - landlords: ALPeopleList.using(ask_number=True,target_number=1) 
 ---
 sections:
   - review_reasonableaccommodationsrequesttola: Review your answers
@@ -100,8 +99,6 @@ code: |
   landlords[0].address.address
   landlords[0].phone_number
   set_progress(60)
-  if uses_property_manager == True: 
-    company.gather()
   signature_date
   interview_order_reasonableaccommodationsrequesttola = True
 ---
@@ -130,7 +127,7 @@ continue button field: reasonableaccommodationsrequesttola_intro
 question: |
   ReasonableAccommodationsRequesttoLandlord
 subquestion: |
-  This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability..
+  This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability.
   
   Before you get started, please gather:
   
@@ -179,25 +176,23 @@ code: |
 ---
 id: Accommodation Requests
 question: |
-  Select the accomodation(s) you would like to request:
+  Accommodations Request
 fields:
-  - "Request an Assistance Animal": assistance_animal
-    datatype: noyesradio
-    required: False
-  - "Request Parking Space": parking_space
-    datatype: noyesradio
-    required: False
-  - "Request Rent Deadline Change": change_rent
-    datatype: noyesradio
-    required: False
+  - note: Choose accomodations
+  - Assistance animal: assistance_animal
+    datatype: yesno
+  - Reserved Parking Space: parking_space
+    datatype: yesno
+  - Change rent duedate: change_rent
+    datatype: yesno
 ---
-Code: |
+code: |
   animal_body = "I am requesting permission for an assistance animal to assist with daily living. I understand that our building's rules state a no-pet policy. However, I am requesting that you make a reasonable accomodation in the building's rules to permit an assistance animal in my apartment." 
 ---
-Code: |
+code: |
   parking_body = "I am requesting a reserved parking space closest to my unit. I understand parking is on a first come, first serve basis, but due to my limited mobility, I am requesting a reserved parking space closest to my unit."
 ---
-Code: |
+code: |
   rent_body = "I am requesting to pay my rent on the ${ duedate_request } day of the month without being assessed a late fee. I receive my disability checks on the ${ paydate } day of the month."
 ---
 id: Request Rent Deadline Change Details
@@ -209,12 +204,21 @@ fields:
 Code: |
   duedate_request = ( paydate + 1 )
 ---
-id: 
+id: Property Managment
 question: |
   Does your Landlord use a Property Management Company?
 fields: 
   - no label : uses_property_manager
     datatype: yesno
+---
+id: 
+event: addressee
+question: |
+  TEXT 
+subquestion: |
+   Helpful text
+button: 
+  - Continue: continue
 ---
 id: preview reasonableaccommodationsrequesttola
 question: |
