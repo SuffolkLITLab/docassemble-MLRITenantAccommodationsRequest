@@ -8,11 +8,11 @@ metadata:
   short title: >-
     AccommReqtoLandlord
   description: |-
-    This interview helps a renter in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
+    This interview helps a tenant in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
   can_I_use_this_form: |
     If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
   before_you_start: |
-    This interview will help you write a letter to your landlord to request reasonable accommodations for a person with a disability.
+    This interview will help you write a letter to your landlord to request housing accommodations for a person with a disability.
     
     Before you get started, please gather:
     
@@ -62,7 +62,7 @@ code: |
   github_repo_name =  'docassemble-MLRITenantAccommodationsRequest'
 ---
 code: |
-  interview_short_title = "Write a letter to your landlord to request disability accommodations."
+  interview_short_title = "Tenant disability accommodations request letter"
 ---
 code: |
   al_form_type = "letter" 
