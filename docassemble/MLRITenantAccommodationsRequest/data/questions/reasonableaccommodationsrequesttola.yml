@@ -1,7 +1,6 @@
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
-  - docassemble.ALAnyState:any_state.yml
 ---
 metadata:
   title: >-
@@ -63,7 +62,7 @@ code: |
   github_repo_name =  'docassemble-MLRITenantAccommodationsRequest'
 ---
 code: |
-  interview_short_title = "Write a letter to your landlord to request reasonable accommodations for a person with a disability."
+  interview_short_title = "Write a letter to your landlord to request disability accommodations."
 ---
 code: |
   al_form_type = "letter" 
@@ -87,11 +86,14 @@ code: |
   if disability_exists == False: 
     no_disability
   request_subject
-  accommodations
-  if 'rent' in accommodations:
+  is_animal
+  if is_rent == True:
     paydate
     duedate_request
-  set_progress(20)
+  set_progress(40)
+  if is_custom == True:
+    custom_change
+  request_body
   users.gather()
   set_parts(subtitle=str(users))
   users[0].address.address
@@ -101,7 +103,7 @@ code: |
   set_parts(subtitle=str(landlords))
   landlords[0].address.address
   set_progress(60)
-  signature_date
+  basic_questions_signature_flow
   interview_order_reasonableaccommodationsrequesttola = True
 ---
 ###################### Main order ######################
@@ -179,17 +181,16 @@ code: |
 ---
 id: Accommodation requests
 question: |
-  Accommodation requests
+  What types of accommodations do you need?
 fields:
-  - "Select accommodations": accommodations
-    datatype: checkboxes
-    choices:
-      - label: Assistance animal
-        value: animal
-      - label: Reserved parking space
-        value: parking
-      - label: Change rent duedate
-        value: rent
+  - "Assistance animal": is_animal
+    datatype: yesno
+  - "Reserved parking space": is_parking
+    datatype: yesno
+  - "Change rent due date": is_rent
+    datatype: yesno
+  - "Custom request": is_custom
+    datatype: yesno
 ---
 code: |
     animal_body = "I am requesting permission for an assistance animal to assist with daily living. I understand that our building's rules state a no-pet policy. However, I am requesting that you make a reasonable accommodation in the building's rules to permit an assistance animal in my apartment."
@@ -201,34 +202,54 @@ code: |
      rent_body = f"I am requesting to pay my rent on the { ordinal(duedate_request) } day of the month without being assessed a late fee. I receive my disability checks on the { ordinal(paydate) } day of the month."
 ---
 Code: |
-   request_body = ""
-   if 'animal' in accommodations:
-      request_body += animal_body + "\n\n"
-   if 'parking' in accommodations:
-      request_body += parking_body + "\n\n"
-   if 'rent' in accommodations:
-      request_body += rent_body + "\n\n" 
+  request_body = request_body_build
+---
+Code: |
+  request_body_build = ""
+  if is_animal == True:
+    request_body_build += animal_body + "\n\n"
+  if is_parking == True:
+    request_body_build += parking_body + "\n\n"
+  if is_rent == True:
+    request_body_build += rent_body + "\n\n" 
+  if is_custom == True:
+    request_body_build += custom_body + "\n\n"
 ---
 id: Fixed income date
-question: When do you receive disability checks?
+question: On which day of the month do you receive disability checks?
 fields: 
-  - no label: paydate
+  - "Enter day of the month as a number": paydate
     datatype: integer
     min: 1
     max: 31
 ---
-id: Request Rent Deadline Change Details
-question: When do you receive disability checks?
+id: Request rent deadline change details
+question: Which day of the month do you want rent to be due?
 fields: 
-  - no label: duedate_request
+  - "Enter day of the month as a number": duedate_request
     datatype: integer
     min: 1
     max: 31
+---
+id: Custom request details
+question: Custom accommodation request
+fields:
+  - "Describe accommodation": custom_change
+    input type: text block
+  - "Describe justifiction": custom_justification
+    input type: text block
+---
+## add code to set defaults for custom_change and change_details
+
+## next, offer a screen which shows a preview of the language and then offers an edit answers button and a continue button
 ---
 code: |
-  request_body = f"{animal_body}{parking_body}{rent_body}"
+  custom_body = f"I am requesting { custom_change } { custom_justification }"
 ---
-id: preview reasonableaccommodationsrequesttola
+code: |
+  signature_fields = ['users[0].signature']
+---
+id: preview request letter
 question: |
   Preview your form before you sign it
 subquestion: |
@@ -244,11 +265,8 @@ subquestion: |
   Remember to come back to this window to continue and sign your form.
 continue button field: reasonableaccommodationsrequesttola_preview_question    
 ---
-code: |
-  signature_fields = ['users[0].signature']
----
-id: reasonableaccommodationsrequesttola review screen
-event: review_reasonableaccommodationsrequesttola
+id: request letter review screen
+event: review_requestletter
 question: |
   Review your answers
 review:
@@ -259,34 +277,17 @@ review:
       % for item in users:
         * ${ item }
       % endfor
-  - Edit: signature_date
+  - Edit: landlords.revisit
     button: |
-      **Date of Signature**:
-      ${ signature_date }
-  - Edit: landlords[0].name.first
-    button: |
-      **Landlords[0].name.first**:
-      ${ landlords[0].name.first }
-  - Edit: landlords[0].address.address
-    button: |
-      **Landlords[0].address.address**:
-      ${ landlords[0].address.address.block() }
+      **Landlords**
+
+      % for item in users:
+        * ${ item }
+      % endfor
   - Edit: request_subject
     button: |
-      **letter_subject**:
+      **Accommodations recipient**:
       ${ request_subject }
-  - Edit: assistance_animal
-    button: |
-      **Request Assistance Animal**:
-      ${ assistance_animal }
-  - Edit: parking_space
-    button: |
-      **Request Parking Space**:
-      ${ parking_space }
-  - Edit: change_rent
-    button: |
-      **Request Rent Deadline Change**:
-      ${ change_rent }
 ---
 continue button field: users.revisit
 question: |
@@ -310,6 +311,21 @@ columns:
 edit:
   - phone_number
   - signature
+  - name.first
+  - address.address
+confirm: TrueAL_DEFAULT_COUNTRY
+---
+table: landlords.table
+rows: landlords
+columns:
+  - Phone number: |
+      row_item.phone_number if defined("row_item.phone_number") else ""
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+  - Address: |
+      row_item.address.block() if defined("row_item.address.address") else ""
+edit:
+  - phone_number
   - name.first
   - address.address
 confirm: True
@@ -359,5 +375,5 @@ attachment:
   filename: reasonableaccommodationsrequesttola
   variable name: reasonableaccommodationsrequesttola_attachment[i]
   skip undefined: True
-  docx template file: reasonableaccommodationsrequesttola.docx
+  docx template file: reasonable-accomodation-request-letter-to-landlord.docx
   tagged pdf: True
