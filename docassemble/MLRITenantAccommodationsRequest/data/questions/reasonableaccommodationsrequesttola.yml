@@ -1,6 +1,7 @@
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.ALAnyState:any_state.yml
 ---
 metadata:
   title: >-
@@ -22,7 +23,8 @@ metadata:
     
     1. Upload the signed letter to your tenant portal, 
     2. Send an email to your landlord or property management company and attach the signed letter, or;
-    3. Print and mail the letter to your landlord or propety management company. 
+    3. Print and mail the letter to your landlord or property management company. 
+  
   maturity: production
   estimated_completion_minutes: 7
   estimated_completion_delta: 5
@@ -33,7 +35,7 @@ metadata:
     - "HO-00-00-00-00"
     - "RI-03-01-00-00"
   authors:
-    - KP Hunsinger
+    - Suffolk LIT Lab
   original_form: []
   original_form_published_on: ""
   allowed_courts: []
@@ -58,7 +60,7 @@ code: |
   AL_DEFAULT_STATE = "MA"
 ---
 code: |
-  github_repo_name =  'docassemble-Reasonableaccommodationsrequesttola'
+  github_repo_name =  'docassemble-MLRITenantAccommodationsRequest'
 ---
 code: |
   interview_short_title = "Write a letter to your landlord to request reasonable accommodations for a person with a disability."
