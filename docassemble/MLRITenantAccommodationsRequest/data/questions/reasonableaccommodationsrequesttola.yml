@@ -87,9 +87,10 @@ code: |
   if disability_exists == False: 
     no_disability
   request_subject
-  assistance_animal
-  if change_rent == True:
+  accommodations
+  if 'rent' in accommodations:
     paydate
+    duedate_request
   set_progress(20)
   users.gather()
   set_parts(subtitle=str(users))
@@ -99,7 +100,6 @@ code: |
   landlords.gather()
   set_parts(subtitle=str(landlords))
   landlords[0].address.address
-  landlords[0].phone_number
   set_progress(60)
   signature_date
   interview_order_reasonableaccommodationsrequesttola = True
@@ -131,14 +131,15 @@ question: |
 subquestion: |
   This interview will help you write a letter to your landlord to request accommodations for a person with a disability.
   
-  Before you get started, please gather:
+  Before you get started:
   
-  1. The name and address of your landlord or property management company.
+  1. Gather the name and address of your landlord or property management company.
+  2. Access your tenant portal website (if applicable). 
   
    When you are finished, you will need to download the completed letter and either:
     
     1. Upload the signed letter to your tenant portal, 
-    2. Send an email to your landlord or property management company and attach the signed letter, or;
+    2. Attach the letter to an email to your landlord or property management company, or;
     3. Print and mail the letter to your landlord or propety management company. 
 
   If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request accommodations.
@@ -176,45 +177,53 @@ code: |
     subject_ref ="a member of my household is"
   else: subject_ref = "a member of my household is"
 ---
-id: Accommodation Requests
+id: Accommodation requests
 question: |
-  Accommodations Request
+  Accommodation requests
 fields:
-  - note: Choose accomodations
-  - Assistance animal: assistance_animal
-    datatype: yesno
-  - Reserved Parking Space: parking_space
-    datatype: yesno
-  - Change rent duedate: change_rent
-    datatype: yesno
+  - "Select accommodations": accommodations
+    datatype: checkboxes
+    choices:
+      - label: Assistance animal
+        value: animal
+      - label: Reserved parking space
+        value: parking
+      - label: Change rent duedate
+        value: rent
 ---
 code: |
-  if assistance_animal == True:
-    animal_body = "I am requesting permission for an assistance animal to assist with daily living. I understand that our building's rules state a no-pet policy. However, I am requesting that you make a reasonable accomodation in the building's rules to permit an assistance animal in my apartment." 
-  else: animal_body = ""
-
+    animal_body = "I am requesting permission for an assistance animal to assist with daily living. I understand that our building's rules state a no-pet policy. However, I am requesting that you make a reasonable accommodation in the building's rules to permit an assistance animal in my apartment."
 ---
 code: |
-  if parking_space == True: 
     parking_body = "I am requesting a reserved parking space closest to my unit. I understand parking is on a first come, first serve basis, but due to my limited mobility, I am requesting a reserved parking space closest to my unit."
-  else: parking_body = ""
 ---
 code: |
-  if change_rent == True:
-    rent_body = "I am requesting to pay my rent on the ${ ordinal(duedate_request) } day of the month without being assessed a late fee. I receive my disability checks on the ${ ordinal(paydate) } day of the month."
-  else: rent_body = ""
+     rent_body = f"I am requesting to pay my rent on the { ordinal(duedate_request) } day of the month without being assessed a late fee. I receive my disability checks on the { ordinal(paydate) } day of the month."
+---
+Code: |
+   request_body = ""
+   if 'animal' in accommodations:
+      request_body += animal_body + "\n\n"
+   if 'parking' in accommodations:
+      request_body += parking_body + "\n\n"
+   if 'rent' in accommodations:
+      request_body += rent_body + "\n\n" 
 ---
 id: Fixed income date
 question: When do you receive disability checks?
 fields: 
   - no label: paydate
     datatype: integer
+    min: 1
+    max: 31
 ---
 id: Request Rent Deadline Change Details
 question: When do you receive disability checks?
 fields: 
   - no label: duedate_request
     datatype: integer
+    min: 1
+    max: 31
 ---
 code: |
   request_body = f"{animal_body}{parking_body}{rent_body}"
