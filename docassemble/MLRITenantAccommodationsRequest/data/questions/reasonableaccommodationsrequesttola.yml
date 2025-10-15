@@ -237,29 +237,18 @@ fields:
   - "Describe accommodation": custom_change
     input type: area
     default: |
-      Sample: I am requesting permission to install a doorbell with a strobe.
+      Sample: permission to install a doorbell with a strobe.
     help: |
-      Suggested format - "I am requesting [describe accommodation]."
+      Suggested format - I am requesting "[describe accommodation]."
       You may enter more than one request in this area. 
   - "Describe justifiction": custom_justification
     input type: area
     default: |
       Sample: I am requesting this to help my child who cannot hear the doorbell because of a disability.
-    help: suggested format, complete sentence - I am requesting "[ describe how accommodation(s) will help]."
+    help: suggested format, complete sentence - "I am requesting [ describe how accommodation(s) will help]."
 ---
 code: |
   custom_body = f"I am requesting { custom_change } { custom_justification }"
----
-id: Custom preview
-question: Custom accommodation Preview
-Subquestion: |
-   Here is a preview of your custom accommodations request.
-
-   ${ custom_body }
-   
-buttons: 
-  - Back: back
-  - Continue: continue
 ---
 code: |
   signature_fields = ['users[0].signature']
@@ -281,7 +270,7 @@ subquestion: |
 continue button field: reasonableaccommodationsrequesttola_preview_question    
 ---
 id: request letter review screen
-event: review_requestletter
+event: preview
 question: |
   Review your answers
 review:
