@@ -365,7 +365,7 @@ objects:
 attachment:
   name: Post-interview-Instructions
   filename: reasonableaccommodationsrequesttola_next_steps
-  docx template file: reasonableaccommodationsrequesttola_next_steps.docx
+  docx template file: accommodationrequestletter_next_steps.docx
   variable name: reasonableaccommodationsrequesttola_Post_interview_instructions[i]
   skip undefined: True
   tagged pdf: True
