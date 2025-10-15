@@ -235,13 +235,17 @@ id: Custom request details
 question: Custom accommodation request
 fields:
   - "Describe accommodation": custom_change
-    input type: text block
+    input type: area
+    default: |
+      Sample: permission to install a doorbell with a strobe.
+    help: |
+      Suggested format - I am requesting "[describe accommodation]."
+      You may enter more than one request in this area. 
   - "Describe justifiction": custom_justification
-    input type: text block
----
-## add code to set defaults for custom_change and change_details
-
-## next, offer a screen which shows a preview of the language and then offers an edit answers button and a continue button
+    input type: area
+    default: |
+      Sample: I am requesting this to help my child who cannot hear the doorbell because of a disability.
+    help: suggested format, complete sentence - "I am requesting [ describe how accommodation(s) will help]."
 ---
 code: |
   custom_body = f"I am requesting { custom_change } { custom_justification }"
@@ -266,7 +270,7 @@ subquestion: |
 continue button field: reasonableaccommodationsrequesttola_preview_question    
 ---
 id: request letter review screen
-event: review_requestletter
+event: preview
 question: |
   Review your answers
 review:
