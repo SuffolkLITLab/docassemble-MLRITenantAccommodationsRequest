@@ -16,7 +16,8 @@ metadata:
     
     Before you get started, please gather:
     
-    1. The name and address of your landlord or property management company. If you have a tenant portal for communication with your landlord or property management company, ensure you have access. 
+    1. The name and address of your landlord or property management company. 
+    2. If you have a tenant portal for communication with your landlord or property management company, ensure you have access. 
     
     When you are finished, you will need to download the completed letter and either:
     
@@ -98,7 +99,7 @@ code: |
   set_parts(subtitle=str(users))
   users[0].address.address
   users[0].phone_number
-  set_progress(40)
+  set_progress(50)
   landlords.gather()
   set_parts(subtitle=str(landlords))
   landlords[0].address.address
@@ -187,9 +188,9 @@ fields:
     datatype: yesno
   - "Reserved parking space": is_parking
     datatype: yesno
-  - "Change rent due date": is_rent
+  - "Change rent due date based on fixed income": is_rent
     datatype: yesno
-  - "Custom request": is_custom
+  - "Something else": is_custom
     datatype: yesno
 ---
 code: |
@@ -216,7 +217,7 @@ Code: |
     request_body_build += custom_body + "\n\n"
 ---
 id: Fixed income date
-question: On which day of the month do you receive disability checks?
+question: On which day of the month do you receive a disability check or other fixed income?
 fields: 
   - "Enter day of the month as a number": paydate
     datatype: integer
@@ -232,15 +233,16 @@ fields:
     max: 31
 ---
 id: Custom request details
-question: Custom accommodation request
+question: Create accommodation request
+subquestion: Use sample format
 fields:
   - "Describe accommodation": custom_change
     input type: area
     default: |
       Sample: permission to install a doorbell with a strobe.
     help: |
-      Suggested format - I am requesting "[describe accommodation]."
-      You may enter more than one request in this area. 
+      Suggested format, fill in the blank - I am requesting "[describe accommodation]."
+      You may enter more than one request in this area.
   - "Describe justifiction": custom_justification
     input type: area
     default: |
