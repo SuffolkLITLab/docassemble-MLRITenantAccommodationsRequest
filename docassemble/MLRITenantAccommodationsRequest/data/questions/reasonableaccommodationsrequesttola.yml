@@ -4,9 +4,9 @@ include:
 ---
 metadata:
   title: >-
-    TenantAccommodationsRequesttoLandlord
+    Tenant Accommodations Request
   short title: >-
-    AccommReqtoLandlord
+    TenantAccommReq
   description: |-
     This interview helps a tenant in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
   can_I_use_this_form: |
@@ -132,29 +132,31 @@ continue button field: reasonableaccommodationsrequesttola_intro
 question: |
   Tenant accomodations request letter
 subquestion: |
-  This interview will help you write a letter to your landlord to request accommodations for a person with a disability.
+  This interview will help you write a letter to your landlord to request accommodations for a person with a disability. If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request accommodations.
   
   Before you get started:
   
   1. Gather the name and address of your landlord or property management company.
   2. Access your tenant portal website (if applicable). 
   
-   When you are finished, you will need to download the completed letter and either:
+  When you are finished, you will need to download the completed letter and either:
     
-    1. Upload the signed letter to your tenant portal, 
-    2. Attach the letter to an email to your landlord or property management company, or;
-    3. Print and mail the letter to your landlord or propety management company. 
+  1. Upload the signed letter to your tenant portal, 
+  2. Attach the letter to an email to your landlord or property management company, or;
+  3. Print and mail the letter to your landlord or propety management company. 
 
-  If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request accommodations.
 
   Most people take about 7 minutes to complete this interview.
 ---
 id: Confirm Purpose
 question: |
-  Are you a tenant asking a landlord for accommodations?
+  Are you a {tenant} asking a landlord for accommodations? 
 fields:
   - no label: disability_exists
-    datatype: yesnoradio  
+    datatype: yesnoradio
+terms:
+  tenant: |
+    A tenant is a person who rents their home.
 ---
 id: No Disability Offramp
 event: no_disability
