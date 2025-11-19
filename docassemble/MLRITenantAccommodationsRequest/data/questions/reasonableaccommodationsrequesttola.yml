@@ -251,6 +251,20 @@ fields:
       Sample: I am requesting this to help my child who cannot hear the doorbell because of a disability.
     help: suggested format, complete sentence - "I am requesting [ describe how accommodation(s) will help]."
 ---
+id: custom preview
+event: custom_preview
+question: |
+  Preview your custom accommodation request
+subquestion: |
+  Here is a preview of the custom accommodation request you entered:
+  ${ custom_body | nl2br }
+
+  Is this correct?  If yes, click Continue. If no, click Back to edit your request.
+
+buttons:
+  Back: back
+  Continue: continue
+---
 code: |
   custom_body = f"I am requesting { custom_change } { custom_justification }"
 ---
