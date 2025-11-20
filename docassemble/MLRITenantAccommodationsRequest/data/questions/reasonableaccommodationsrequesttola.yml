@@ -94,6 +94,8 @@ code: |
   set_progress(40)
   if is_custom == True:
     custom_change
+  if defined('custom_change'):
+    custom_preview
   request_body
   users.gather()
   set_parts(subtitle=str(users))
@@ -252,18 +254,16 @@ fields:
     help: suggested format, complete sentence - "I am requesting [ describe how accommodation(s) will help]."
 ---
 id: custom preview
-event: custom_preview
+continue button field: custom_preview
 question: |
-  Preview your custom accommodation request
+  Preview your accommodation request
 subquestion: |
-  Here is a preview of the custom accommodation request you entered:
-  ${ custom_body | nl2br }
+  Here is a preview of the accommodation request you entered: 
+  
+  ${ custom_body }
 
-  Is this correct?  If yes, click Continue. If no, click Back to edit your request.
-
-buttons:
-  Back: back
-  Continue: continue
+  Is this correct?  If yes, click Next. If no, click Undo and edit your request.
+back button: True
 ---
 code: |
   custom_body = f"I am requesting { custom_change } { custom_justification }"
