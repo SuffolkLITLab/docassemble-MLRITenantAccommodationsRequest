@@ -179,12 +179,12 @@ fields:
 
 ---
 code: |
-  subject_ref = ""
   if request_subject == "user":
     subject_ref = "I am"
-  if request_subject == "household_member":
-    subject_ref ="a member of my household is"
-  else: subject_ref = "a member of my household is"
+  elif request_subject == "household_member":
+    subject_ref = "a member of my household is"
+  else:
+    subject_ref = "a member of my household is"
 ---
 id: Accommodation requests
 question: |
