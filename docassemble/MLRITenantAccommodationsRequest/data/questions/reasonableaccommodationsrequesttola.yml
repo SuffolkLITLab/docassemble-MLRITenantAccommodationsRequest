@@ -181,8 +181,6 @@ fields:
 code: |
   if request_subject == "user":
     subject_ref = "I am"
-  elif request_subject == "household_member":
-    subject_ref = "a member of my household is"
   else:
     subject_ref = "a member of my household is"
 ---
