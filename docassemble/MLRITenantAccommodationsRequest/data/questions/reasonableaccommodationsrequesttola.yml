@@ -1,12 +1,13 @@
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.MassAccess:massaccess.yml
 ---
 metadata:
   title: >-
     Tenant Accommodations Request
   short title: >-
-    TenantAccommReq
+    Tenant Accommodations
   description: |-
     This interview helps a tenant in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
   can_I_use_this_form: |
@@ -47,7 +48,7 @@ metadata:
   jurisdiction: NAM-US-US+MA
   review_date: 2025-09-30
   form_titles:
-    - ReasonableAccommodationsRequesttoLandlord
+    - Tenant Accommodations Request 
   form_numbers: []
   update_notes: |
 ---
