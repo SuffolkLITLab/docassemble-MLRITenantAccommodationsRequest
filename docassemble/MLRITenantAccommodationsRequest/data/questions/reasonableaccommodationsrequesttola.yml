@@ -132,7 +132,7 @@ code: |
 id: ReasonableAccommodationsRequesttoLandlord
 continue button field: reasonableaccommodationsrequesttola_intro
 question: |
-  Tenant accomodations request letter
+  Tenant accommodations request letter
 subquestion: |
   This interview will help you write a letter to your landlord to request accommodations for a person with a disability. If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request accommodations.
   
@@ -163,13 +163,13 @@ terms:
 id: No Disability Offramp
 event: no_disability
 question: | 
-  Since you are not a tenant asking for an accomodation related to a disability you will not want to use this form.
+  Since you are not a tenant asking for an accommodation related to a disability you will not want to use this form.
 buttons: 
   - Exit: exit
 ---
 id: Use Information
 question: |
-  Are you requesting accomodations for yourself or for a member of your household?
+  Are you requesting accommodations for yourself or for a member of your household?
 fields:
   - Accommodations are for: request_subject
     input type: radio
