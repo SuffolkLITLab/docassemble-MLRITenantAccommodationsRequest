@@ -5,26 +5,20 @@ include:
 ---
 metadata:
   title: >-
-    Tenant Accommodations Request
+    Tenant accommodations request letter
   short title: >-
-    Tenant Accommodations
+    Tenant accommodations request
   description: |-
-    This interview helps a tenant in Massachusetts write a letter to a landlord to request reasonable accommodations for a person with a disability.
+    This interview helps a tenant in Massachusetts write a letter to a landlord to request a reasonable accommodation related to a disability.
   can_I_use_this_form: |
-    If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request reasonable accommodations.
+    You can use this form if you or someone in your household has a disability and you need a reasonable accommodation from your landlord in Massachusetts.
   before_you_start: |
-    This interview will help you write a letter to your landlord to request housing accommodations for a person with a disability.
+    Before you start, gather:
     
-    Before you get started, please gather:
-    
-    1. The name and address of your landlord or property management company. 
-    2. If you have a tenant portal for communication with your landlord or property management company, ensure you have access. 
-    
-    When you are finished, you will need to download the completed letter and either:
-    
-    1. Upload the signed letter to your tenant portal, 
-    2. Send an email to your landlord or property management company and attach the signed letter, or;
-    3. Print and mail the letter to your landlord or property management company. 
+    1. The name and address of your landlord or property manager.
+    2. How you will deliver the letter (tenant portal, email, or mail).
+  when_you_are_finished: |
+    After you finish, download and sign your letter. Then send it to your landlord by tenant portal, email, or mail. Keep a copy for your records.
   
   maturity: production
   estimated_completion_minutes: 7
@@ -37,20 +31,24 @@ metadata:
     - "RI-03-01-00-00"
   authors:
     - Suffolk LIT Lab
+  integrated_efiling: False
+  integrated_email_filing: False
+  help_page_url: https://www.masslegalhelp.org/housing-apartments-shelter/public-subsidized-housing/reasonable-accommodations-and-housing
+  help_page_title: Reasonable Accommodations and Housing
   original_form: []
-  original_form_published_on: ""
   allowed_courts: []
   typical_role: "na"
   al_weaver_version: "1.11.0"
-  generated_on: "2025-09-30"
+  generated_on: "2026-01-15"
   languages:
     - en
   jurisdiction: NAM-US-US+MA
-  review_date: 2025-09-30
+  review_date: 2026-1-15
   form_titles:
-    - Tenant Accommodations Request 
+    - Tenant accommodations request letter
   form_numbers: []
   update_notes: |
+    Initial release.
 ---
 code: |
   # This controls the default country and list of states in address field questions
@@ -135,25 +133,27 @@ continue button field: reasonableaccommodationsrequesttola_intro
 question: |
   Tenant accommodations request letter
 subquestion: |
-  This interview will help you write a letter to your landlord to request accommodations for a person with a disability. If you are or a member of your household is a person with a disability, you can use this interview to create a letter to send to your landlord to request accommodations.
+  This interview helps you write a letter to your landlord to request a reasonable accommodation related to a disability.
+  
+  You can use this interview if you or someone in your household has a disability and you need a change to rules, policies, or services in your housing.
   
   Before you get started:
   
-  1. Gather the name and address of your landlord or property management company.
-  2. Access your tenant portal website (if applicable). 
+  1. Gather the name and address of your landlord or property manager.
+  2. Decide how you will deliver the letter (tenant portal, email, or mail).
   
   When you are finished, you will need to download the completed letter and either:
     
   1. Upload the signed letter to your tenant portal, 
-  2. Attach the letter to an email to your landlord or property management company, or;
-  3. Print and mail the letter to your landlord or propety management company. 
+  2. Attach the letter to an email to your landlord or property management company, or
+  3. Print and mail the letter to your landlord or property management company. 
 
 
   Most people take about 7 minutes to complete this interview.
 ---
 id: Confirm Purpose
 question: |
-  Are you a {tenant} asking a landlord for accommodations? 
+  Do you or someone in your household have a disability and need a housing accommodation?
 fields:
   - no label: disability_exists
     datatype: yesnoradio
@@ -164,7 +164,9 @@ terms:
 id: No Disability Offramp
 event: no_disability
 question: | 
-  Since you are not a tenant asking for an accommodation related to a disability you will not want to use this form.
+  This form is only for tenants who need a disability-related housing accommodation. 
+  
+  If that does not fit your situation, you can exit now.
 buttons: 
   - Exit: exit
 ---
@@ -175,15 +177,14 @@ fields:
   - Accommodations are for: request_subject
     input type: radio
     choices:
-      - me: user
+      - me: me
       - a member of my household: household_member
 ---
 code: |
-  if request_subject == "user":
+  if request_subject == "me":
     subject_ref = "I am"
-  elif request_subject == "household_member":
-    subject_ref ="a member of my household is"
-  else: subject_ref = "a member of my household is"
+  else:
+    subject_ref = "a member of my household is"
 ---
 id: Accommodation requests
 question: |
@@ -191,35 +192,37 @@ question: |
 fields:
   - "Assistance animal": is_animal
     datatype: yesno
+    help: |
+      This includes service animals and emotional support animals.
   - "Reserved parking space": is_parking
     datatype: yesno
-  - "Change rent due date based on fixed income": is_rent
+  - "Change rent due date to a day after my public benefits come in": is_rent
     datatype: yesno
   - "Something else": is_custom
     datatype: yesno
+validation code: |
+  if not (is_animal or is_parking or is_rent or is_custom):
+    validation_error("Select at least one accommodation.")
 ---
 code: |
-    animal_body = "I am requesting permission for an assistance animal to assist with daily living. I understand that our building's rules state a no-pet policy. However, I am requesting that you make a reasonable accommodation in the building's rules to permit an assistance animal in my apartment."
+  animal_body = "I am requesting permission for an assistance animal to assist with daily living. I understand that our building's rules state a no-pet policy. However, I am requesting that you make a reasonable accommodation in the building's rules to permit an assistance animal in my apartment."
 ---
 code: |
-    parking_body = "I am requesting a reserved parking space closest to my unit. I understand parking is on a first come, first serve basis, but due to my limited mobility, I am requesting a reserved parking space closest to my unit."
+  parking_body = "I am requesting a reserved parking space closest to my unit. I understand parking is on a first come, first served basis, but due to my limited mobility, I am requesting a reserved parking space closest to my unit."
 ---
 code: |
-     rent_body = f"I am requesting to pay my rent on the { ordinal(duedate_request) } day of the month without being assessed a late fee. I receive my disability checks on the { ordinal(paydate) } day of the month."
+  rent_body = f"I am requesting to pay my rent on the { ordinal(duedate_request) } day of the month without being assessed a late fee. I receive my public benefits on the { ordinal(paydate) } day of the month."
 ---
-Code: |
-  request_body = request_body_build
----
-Code: |
-  request_body_build = ""
-  if is_animal == True:
-    request_body_build += animal_body + "\n\n"
-  if is_parking == True:
-    request_body_build += parking_body + "\n\n"
-  if is_rent == True:
-    request_body_build += rent_body + "\n\n" 
-  if is_custom == True:
-    request_body_build += custom_body + "\n\n"
+code: |
+  request_body = ""
+  if is_animal:
+    request_body += animal_body + "\n\n"
+  if is_parking:
+    request_body += parking_body + "\n\n"
+  if is_rent:
+    request_body += rent_body + "\n\n"
+  if is_custom:
+    request_body += custom_body + "\n\n"
 ---
 id: Fixed income date
 question: On which day of the month do you receive a disability check or other fixed income?
@@ -238,21 +241,20 @@ fields:
     max: 31
 ---
 id: Custom request details
-question: Create accommodation request
-subquestion: Use sample format
+question: Accommodation request
+subquestion: |
+  Describe the change you want in your own words.
 fields:
-  - "Describe accommodation": custom_change
+  - "The change I want is": custom_change
     input type: area
-    default: |
-      Sample: permission to install a doorbell with a strobe.
     help: |
-      Suggested format, fill in the blank - I am requesting "[describe accommodation]."
-      You may enter more than one request in this area.
-  - "Describe justifiction": custom_justification
+      Example: permission to install a doorbell with a strobe.
+      You can include more than one request.
+  - "The reason I need the change is": custom_justification
     input type: area
-    default: |
-      Sample: I am requesting this to help my child who cannot hear the doorbell because of a disability.
-    help: suggested format, complete sentence - "I am requesting [ describe how accommodation(s) will help]."
+    help: |
+      Example: I need this because my child cannot hear the doorbell due to a disability.
+      Write a complete sentence.
 ---
 id: custom preview
 continue button field: custom_preview
@@ -267,7 +269,7 @@ subquestion: |
 back button: True
 ---
 code: |
-  custom_body = f"I am requesting { custom_change } { custom_justification }"
+  custom_body = f"I am requesting { custom_change }. { custom_justification }"
 ---
 code: |
   signature_fields = ['users[0].signature']
@@ -289,7 +291,7 @@ subquestion: |
 continue button field: reasonableaccommodationsrequesttola_preview_question    
 ---
 id: request letter review screen
-event: preview
+event: review_reasonableaccommodationsrequesttola
 question: |
   Review your answers
 review:
@@ -304,7 +306,7 @@ review:
     button: |
       **Landlords**
 
-      % for item in users:
+      % for item in landlords:
         * ${ item }
       % endfor
   - Edit: request_subject
@@ -336,7 +338,7 @@ edit:
   - signature
   - name.first
   - address.address
-confirm: TrueAL_DEFAULT_COUNTRY
+confirm: True
 ---
 table: landlords.table
 rows: landlords
@@ -375,7 +377,7 @@ progress: 100
 # ALDocument objects specify the metadata for each template
 objects:
   - reasonableaccommodationsrequesttola_Post_interview_instructions: ALDocument.using(title="Instructions", filename="reasonableaccommodationsrequesttola_next_steps.docx", enabled=True, has_addendum=False)
-  - reasonableaccommodationsrequesttola_attachment: ALDocument.using(title="ReasonableAccommodationsRequesttoLandlord", filename="reasonableaccommodationsrequesttola", enabled=True, has_addendum=False, )
+  - reasonableaccommodationsrequesttola_attachment: ALDocument.using(title="Reasonable Accommodations Request to Landlord", filename="reasonableaccommodationsrequesttola", enabled=True, has_addendum=False, )
 ---
 # Bundles group the ALDocuments into separate downloads, such as for court and for the user
 objects:
