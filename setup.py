@@ -44,7 +44,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.MLRITenantAccommodationsRequest',
-      version='1.0',
+      version='1.1.0',
       description=('A Docassemble interview for a Tenant to request disability accommodations from landlord'),
       long_description='# docassemble.MLRITenantAccomodationsRequest\r\n\r\nGuided interview helps tenant write a letter to a landlord or property manager to request reasonable accommodations for a person with a disability.\r\n\r\n## Author\r\n\r\nSuffolk LIT Lab\r\n\r\n\r\n',
       long_description_content_type='text/markdown',
